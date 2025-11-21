@@ -19,7 +19,6 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, loading }) => {
       </div>
 
       <div className="flex overflow-x-auto pb-4 px-4 pt-4 gap-4 no-scrollbar scroll-smooth">
-        {/* Loading State or Empty State */}
         {!hourly || loading
           ? // Render 6 skeletons
             Array.from({ length: 6 }).map((_, i) => (
@@ -32,8 +31,7 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, loading }) => {
                 <Skeleton className="h-6 w-8" />
               </div>
             ))
-          : // Data State
-            hourly.map((hourData, index) => (
+          : hourly.map((hourData, index) => (
               <div
                 key={index}
                 className="flex flex-col items-center min-w-20 p-3 rounded-xl hover:bg-white/10 transition duration-200"

@@ -1,5 +1,3 @@
-// src/services/geocoding.ts
-
 export interface Coordinates {
   latitude: number;
   longitude: number;
@@ -12,11 +10,10 @@ export interface Coordinates {
 
 const GEOCODING_API_URL = "https://geocoding-api.open-meteo.com/v1";
 
-// Helper: Convert "US" -> 🇺🇸
 const getCountryFlag = (countryCode: string) => {
   if (!countryCode) return "🏳️";
   const codePoints = countryCode
-    .toUpperCase() // This ensures any input is uppercase (redundant but safe)
+    .toUpperCase()
     .split("")
     .map((char) => 127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);
@@ -32,14 +29,10 @@ interface OpenMeteoResult {
   admin1?: string;
 }
 
-/**
- * Search for cities by name (Auto-complete) - Uses Open-Meteo
- */
 export async function getCityRecommendations(
   searchTerm: string,
   count: number = 5
 ): Promise<Coordinates[]> {
-  // ... (No change needed here as Open-Meteo returns uppercase country_code) ...
   if (!searchTerm.trim() || searchTerm.length < 2) return [];
 
   const url = `${GEOCODING_API_URL}/search?name=${encodeURIComponent(
@@ -76,9 +69,6 @@ export async function getCoordinatesForCity(
   return results.length > 0 ? results[0] : null;
 }
 
-/**
- * Reverse Geocoding: Get City Name from GPS Coordinates - Uses BigDataCloud
- */
 export async function getCityNameFromCoordinates(
   lat: number,
   lon: number
@@ -91,13 +81,9 @@ export async function getCityNameFromCoordinates(
 
     const data = await res.json();
 
-    // --- FIX APPLIED HERE ---
-    // Ensure the country code is uppercase for flag generation,
-    // as BigDataCloud returns it lowercase (e.g., 'np').
     const code = data.countryCode
       ? String(data.countryCode).toUpperCase()
       : undefined;
-    // --- END FIX ---
 
     return {
       latitude: lat,

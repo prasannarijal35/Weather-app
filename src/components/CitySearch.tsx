@@ -1,5 +1,3 @@
-// src/components/CitySearch.tsx
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -27,7 +25,6 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
 
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Debounce Search Logic
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (searchTerm.length < 2) {
@@ -41,11 +38,10 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
       setIsSearching(false);
     };
 
-    const handler = setTimeout(fetchRecommendations, 300); // 300ms delay
+    const handler = setTimeout(fetchRecommendations, 300);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  // Click Outside to Close Dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -59,14 +55,12 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Handle Selection from Dropdown
   const handleSelect = (coords: Coordinates) => {
     onSelect(coords);
     setSearchTerm(coords.city);
     setRecommendations([]);
   };
 
-  // Handle "Use My Location" Button
   const handleCurrentLocation = () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
@@ -74,13 +68,12 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
     }
 
     setIsLoadingLocation(true);
-    setRecommendations([]); // Hide dropdown if open
+    setRecommendations([]);
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
 
-        // 1. Reverse geocode to get city name
         const coords = await getCityNameFromCoordinates(latitude, longitude);
 
         if (coords) {
@@ -103,7 +96,6 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
 
   return (
     <div ref={searchRef} className="relative w-full md:w-96 z-50">
-      {/* Search Input Container */}
       <div className="flex items-center backdrop-blur-md bg-white/10 border border-white/20 text-white p-3 md:p-4 rounded-full shadow-lg focus-within:bg-white/20 focus-within:border-white/40 transition duration-300">
         <FaSearch className="text-white/60 mr-3" />
 
@@ -115,7 +107,6 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
           className="w-full bg-transparent outline-none placeholder:text-white/50"
         />
 
-        {/* Location Button */}
         <button
           onClick={handleCurrentLocation}
           disabled={isLoadingLocation}
@@ -131,7 +122,6 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
         </button>
       </div>
 
-      {/* Recommendations Dropdown */}
       {(isSearching || recommendations.length > 0) && (
         <div className="absolute w-full mt-2 backdrop-blur-xl bg-black/80 border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           {/* Loading text while typing... */}
@@ -148,12 +138,10 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
               onClick={() => handleSelect(coords)}
             >
               <div className="flex items-center gap-3">
-                {/* Icon */}
                 <span className="text-white/40 group-hover:text-white transition-colors">
                   <FaMapMarkerAlt />
                 </span>
 
-                {/* Text */}
                 <div className="flex flex-col">
                   <span className="font-medium text-white text-sm">
                     {coords.city}
@@ -164,14 +152,12 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSelect }) => {
                 </div>
               </div>
 
-              {/* Flag */}
               <span className="text-xl opacity-80 grayscale group-hover:grayscale-0 transition-all">
                 {coords.flag}
               </span>
             </div>
           ))}
 
-          {/* No results found */}
           {!isSearching &&
             recommendations.length === 0 &&
             searchTerm.length >= 2 && (

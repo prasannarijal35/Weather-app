@@ -9,18 +9,14 @@ import {
   WiDayCloudy,
 } from "react-icons/wi";
 
-// We extend the types to include 'snow' which we added in the service
 export type IconType = "sunny" | "cloudy" | "rainy" | "storm" | "snow";
 
 interface IconProps {
-  type: IconType | string; // Allow string to be safe, but prefer specific types
+  type: IconType | string;
   className?: string;
 }
 
 const Icon: React.FC<IconProps> = ({ type, className }) => {
-  // Base icon size and color handling is done via className,
-  // but we can add specific colors for weather types if desired.
-
   const renderIcon = () => {
     switch (type) {
       case "sunny":

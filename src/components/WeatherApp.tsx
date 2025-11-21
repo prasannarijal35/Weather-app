@@ -43,9 +43,6 @@ const WeatherApp: React.FC = () => {
     async (lat: number, lon: number, city: string) => {
       setIsLoading(true);
       setError(null);
-      // Note: We don't setWeatherData(null) here to prevent UI flashing
-      // if we want to keep old data while fetching new data.
-      // But for now, let's keep old data visible until new data arrives.
 
       try {
         const res = await fetch(
@@ -75,7 +72,6 @@ const WeatherApp: React.FC = () => {
   );
 
   const bgClass = useMemo(() => {
-    // Use a default code (like 0 for Clear) or custom logic if weatherData is null
     return getBackgroundClass(weatherData?.current.currentIcon || undefined);
   }, [weatherData]);
 
@@ -85,7 +81,6 @@ const WeatherApp: React.FC = () => {
       className={`min-h-screen p-4 md:p-8 flex justify-center transition-colors duration-1000 ease-in-out ${bgClass}`}
     >
       <div className="flex flex-col w-full max-w-6xl z-10">
-        {/* Top Bar: Search & Error Message */}
         <div className="mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <CitySearch onSelect={handleCitySelect} />
           {error && (
@@ -95,11 +90,7 @@ const WeatherApp: React.FC = () => {
           )}
         </div>
 
-        {/* ALWAYS RENDER THE GRID. 
-           We pass 'undefined' if no data, and components handle the empty state.
-        */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-6">
             <CurrentWeather
               current={weatherData?.current}
@@ -110,7 +101,6 @@ const WeatherApp: React.FC = () => {
             <AirConditions current={weatherData?.current} loading={isLoading} />
           </div>
 
-          {/* Side Column */}
           <div className="lg:col-span-1">
             <SevenDayForecast daily={weatherData?.daily} loading={isLoading} />
           </div>

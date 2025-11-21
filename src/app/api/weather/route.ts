@@ -1,5 +1,3 @@
-// src/app/api/weather/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { getWeatherData } from "../../../services/openmeteo";
 

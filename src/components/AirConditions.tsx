@@ -10,7 +10,6 @@ interface AirConditionsProps {
 }
 
 const AirConditions: React.FC<AirConditionsProps> = ({ current, loading }) => {
-  // If no data, we map over a dummy array to show empty cards
   const showSkeleton = loading || !current;
 
   const conditions = [

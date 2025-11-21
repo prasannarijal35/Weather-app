@@ -13,7 +13,6 @@ const CurrentWeather: React.FC<CurrentWeatherProps> = ({
   city,
   loading,
 }) => {
-  // State 1: Loading (Active Fetching)
   if (loading) {
     return (
       <div className="flex flex-col space-y-4 animate-pulse">
@@ -24,7 +23,6 @@ const CurrentWeather: React.FC<CurrentWeatherProps> = ({
     );
   }
 
-  // State 2: Empty (Initial Load)
   if (!current || !city) {
     return (
       <div className="flex flex-col space-y-2">
@@ -37,7 +35,6 @@ const CurrentWeather: React.FC<CurrentWeatherProps> = ({
     );
   }
 
-  // State 3: Data Loaded
   return (
     <div className="flex flex-col space-y-4">
       <div className="text-xl font-semibold text-gray-200">Current Weather</div>
